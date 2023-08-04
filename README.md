@@ -16,8 +16,6 @@
   </p>
 </div>
 
-
-
 ## About tide
 
 ![screenshot](link)
@@ -26,44 +24,41 @@ A learning project in the [The Odin Project](https://www.theodinproject.com/less
 
 ### Features
 
-* Hourly, daily and weekly weather forecast
-* Search cities worldwide
-* Responsive design
+- Hourly, daily and weekly weather forecast
+- Search cities worldwide
+- Responsive design
 
 #### Tech Stack
 
-* JavaScript
-* CSS
-* HTML
-* Git
-
+- JavaScript
+- CSS
+- HTML
+- Git
 
 #### Third Party Acknowledgements
 
-* [date-fns](https://date-fns.org/)
-* [Google Fonts](https://fonts.google.com/)
-* [Font Awesome](https://fontawesome.com/)
-
+- [date-fns](https://date-fns.org/)
+- [Google Fonts](https://fonts.google.com/)
+- [Font Awesome](https://fontawesome.com/)
 
 #### Tools
 
-* Visual Studio Code
-* Warp Terminal
-* GitHub
-* Webpack
+- Visual Studio Code
+- Warp Terminal
+- GitHub
+- Webpack
 
 <p align="right">(<a href="#top">back to top</a>)</p>
-
 
 ## Installation Instructions
 
 ### Prerequisites
 
-* `Node.js` and `npm` installed globally on your machine, use this [Guide](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
+- `Node.js` and `npm` installed globally on your machine, use this [Guide](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
 
 ### Installation
 
-1. Get an API key at [https://openweathermap.com](https://openweathermap.com)
+1. Get an API key at [https://www.weatherapi.com/](weatherapi.com)
 2. Clone the repo
    ```sh
    git clone https://github.com/aste/tide.git
@@ -74,7 +69,7 @@ A learning project in the [The Odin Project](https://www.theodinproject.com/less
    ```
 4. Enter your API key in `./src/api.js`
    ```js
-   const API_KEY = 'YOUR API KEY';
+   const API_KEY = "YOUR API KEY";
    ```
 5. Build the application
    ```sh
@@ -83,10 +78,8 @@ A learning project in the [The Odin Project](https://www.theodinproject.com/less
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-
-
 ## Usage
 
-* Open `./dist/index.html` file with browser.
+- Open `./dist/index.html` file with browser.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
