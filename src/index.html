@@ -13,13 +13,13 @@
       <form id="cityForm">
         <input type="text" id="city" name="city" placeholder="Enter a location:" required />
       </form>
-      <h2 id="cityName"></h2>
-      <h3 id="country"></h3>
-      <h1 id="currentTemp"></h1>
-      <h2 id="currentConditionText"></h2>
+      <h2 class="topHeader header" id="cityName"></h2>
+      <h3 class="topHeader header" id="country"></h3>
+      <h1 class="topHeader header" id="currentTemp"></h1>
+      <h2 class="topHeader header" id="currentConditionText"></h2>
       <section>
-        <h3 id="todaysMaxTemp"></h3>
-        <h3 id="todaysMinTemp"></h3>
+        <h3 class="topHeader header" id="todaysMaxTemp"></h3>
+        <h3 class="topHeader header" id="todaysMinTemp"></h3>
       </section>
     </header>
     <main>
@@ -28,8 +28,11 @@
           <article class="hourForecast"></article>
           <article class="hourForecast"></article>
         </section>
+        <section id="weeklyForecast">
+          <article class="weeklyForecast"></article>
+          <article class="weeklyForecast"></article>
+        </section>
       </section>
-      <section id="weeklyForecast"></section>
     </main>
     <footer></footer>
   </body>

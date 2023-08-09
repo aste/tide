@@ -23,7 +23,7 @@ form#cityForm {
 input[type="text"] {
   padding: 10px;
   border: none;
-  border-radius: 5px 0 0 5px;
+  border-radius: 5px;
   outline: none;
   flex: 1;
 }
