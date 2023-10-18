@@ -52,7 +52,7 @@ async function getForecast(location) {
     const parentElement = document.getElementById("hourlyForecast");
 
     for (let i = 0; i < 24; i++) {
-      let forecastHour; J
+      let forecastHour;
       if (i === 0) {
         forecastHour = "Now";
       } else {
