@@ -1,0 +1,79 @@
+/* General styling */
+body {
+  font-family: "Arial", sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 800px;
+  margin: 20px auto;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+/* Header styling */
+#cityName {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+#country {
+  font-size: 20px;
+  color: #888;
+  margin-bottom: 20px;
+}
+
+/* Current weather details */
+#currentConditionText {
+  margin-top: 10px;
+  font-size: 18px;
+  color: #444;
+}
+
+#todaysMaxTemp,
+#todaysMinTemp,
+#currentTemp {
+  font-size: 32px;
+  margin-right: 10px;
+}
+
+#currentTemp {
+  font-weight: bold;
+}
+
+/* Hourly forecast styles */
+#hourlyForecast .weather-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px;
+}
+
+.weather-icon {
+  width: 50px;
+  height: 50px;
+  margin-bottom: 10px;
+}
+
+.temperature {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.time {
+  font-size: 14px;
+  color: #666;
+}
+
+/* Weekly forecast styles */
+#weeklyForecast .weather-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px;
+}

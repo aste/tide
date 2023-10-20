@@ -7,13 +7,11 @@ async function getForecast(location) {
   try {
     const apiKey = "b850ee2d91154e8b913155353232806";
     const response = await fetch(
-      `http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${location}&days=3`,
-      { mode: "cors" }
+      `http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${location}&days=3`
     );
 
     weatherData = await response.json();
 
-    console.log(weatherData);
     let cityName = weatherData.location.name;
     let countryName = weatherData.location.country;
 
@@ -34,21 +32,24 @@ async function getForecast(location) {
 
     document.getElementById("cityName").innerHTML = cityName;
     document.getElementById("country").innerHTML = countryName;
-    document.getElementById("currentConditionText").innerHTML = currentConditionText;
+    // document.getElementById("currentConditionText").innerHTML = currentConditionText;
     // document.getElementById('currentConditionIcon').innerHTML = currentConditionIcon
     document.getElementById("todaysMaxTemp").innerHTML = `H:${todaysMaxTempC}°`;
     document.getElementById("todaysMinTemp").innerHTML = `L:${todaysMinTempC}°`;
     document.getElementById("currentTemp").innerHTML = `${currentTempC}°`;
 
     if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
+      throw new Error(`HTTP error! Status: ${response.status}`),
+      { mode: "cors" }
     }
   } catch (error) {
     console.error("There was a problem fetching the weather data", error);
     return;
   }
 
-  function createHourlyForecastElements(currentHour) {
+
+
+  function getHourlyForecast(currentHour) {
     const parentElement = document.getElementById("hourlyForecast");
 
     for (let i = 0; i < 24; i++) {
@@ -63,10 +64,10 @@ async function getForecast(location) {
       console.log(`${Math.round(weatherData.forecast.forecastday[0].hour[i].temp_c)}°`);
       console.log("");
 
-      //             <div class="weather-info">
-      //     <img src="path-to-icon.png" alt="Weather Icon" class="weather-icon" />
-      //     <span class="temperature">72°F</span>
-      //     <time class="time">9 AM</time>
+      //<div class="weather-info">
+      //<img src="path-to-icon.png" alt="Weather Icon" class="weather-icon" />
+      //<span class="temperature">72°F</span>
+      //<time class="time">9 AM</time>
       // </div>
     }
     // create the elements with the data inside
@@ -74,9 +75,10 @@ async function getForecast(location) {
   }
 
   const currentHour = new Date(weatherData.forecast.forecastday[0].date);
-  createHourlyForecastElements(currentHour);
 
-  function generate3DayForecast() {
+  getHourlyForecast(currentHour);
+
+  function get3DayForecast() {
     const parentElement = document.getElementById("weeklyForecast");
 
     for (let i = 0; i < 3; i++) {
@@ -84,7 +86,7 @@ async function getForecast(location) {
       if (i === 0) {
         day = "Today";
       } else {
-        day = allWeekdays[getDay(new Date(weatherData.forecast.forecastday[i].date))];
+        // day = allWeekdays[getDay(new Date(weatherData.forecast.forecastday[i].date))];
       }
       console.log(day);
       console.log(weatherData.forecast.forecastday[i].day.condition.icon);
@@ -97,7 +99,9 @@ async function getForecast(location) {
     // append the element to the parent, continue until all days are made
   }
 
-  generate3DayForecast();
+  console.log(weatherData);
+  console.log("test");
+  // get3DayForecast();
 }
 
 
