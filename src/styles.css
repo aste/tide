@@ -1,6 +1,10 @@
 /* General styling */
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 
+:root {
+  --background-grey: rgba(85, 85, 85, 0.25);
+}
+
 body {
   font-family: "Roboto", "Arial", sans-serif;
   font-weight: 100;
@@ -40,7 +44,7 @@ p {
 /* Header styling */
 #locationName {
   font-size: 2rem;
-  margin-top: 2rem;
+  margin-top: 5rem;
 }
 
 #country {
@@ -87,11 +91,26 @@ p {
 
 #inputLocation {
   border: none;
-  border-radius: 1rem;
+  border-radius: 0.75rem;
+  margin-top: 5rem;
   font-family: "Roboto", "Arial", sans-serif;
+  padding: 0.25rem;
+  font-size: 1rem; /* Slightly larger font size */
   text-align: center;
-  background-color: grey;
+  background-color: var(--background-grey);
   color: white;
+  transition: box-shadow 0.3s, transform 0.3s; /* Add transition for box-shadow and transform */
+  width: 100%; /* Take up full width of its container */
+  box-sizing: border-box; /* Ensure padding doesn't make the input larger than its container */
+  outline: none; /* Remove default outline */
+}
+
+#inputLocation::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+#inputLocation:focus {
+  transform: scale(1.1);
 }
 
 .weather-icon {

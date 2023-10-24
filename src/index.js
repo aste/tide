@@ -1,12 +1,10 @@
 import "./styles.css";
-import myImage from './assets/img/logo.png'
-import { getDay, addHours, format } from "date-fns";
+import { addHours, format } from "date-fns";
 
 const SunCalc = require('suncalc');
+const locationForm = document.getElementById("locationForm")
 
-
-let imageUrl = `url(${myImage})`
-let location = "lisbon"
+let location = "tokyo"
 let lat
 let lon
 
@@ -21,6 +19,15 @@ async function getForecast(location) {
 
     weatherData = await response.json();
 
+    if (!response.ok) {
+      if (response.status === "404") {
+        return false
+      }
+      throw new Error(`HTTP error! Status: ${response.status}`),
+      { mode: "cors" }
+    }
+
+    // const currentHour = new Date(weatherData.forecast.forecastday[0].date);
     let cityName = weatherData.location.name;
     let countryName = weatherData.location.country;
     lat = weatherData.location.lat
@@ -51,104 +58,107 @@ async function getForecast(location) {
     document.getElementById("todaysMinTemp").innerHTML = `L:${todaysMinTempC}°`;
     document.getElementById("currentTemp").innerHTML = `${currentTempC}°`;
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`),
-      { mode: "cors" }
-    }
+    setSkyGradient()
+    return true
+
   } catch (error) {
     console.error("There was a problem fetching the weather data", error);
-    return;
+    return false;
   }
 
-
-  function convertToTitleCase(str) {
-    let splitStr = str.toLowerCase().split(' ')
-    for (let i = 0; i < splitStr.length; i++) {
-      splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
-    }
-    return splitStr.join(' ')
-  }
-
-  function getHourlyForecast(currentHour) {
-    const parentElement = document.getElementById("hourlyForecast");
-
-    for (let i = 0; i < 24; i++) {
-      let forecastHour;
-      if (i === 0) {
-        forecastHour = "Now";
-      } else {
-        forecastHour = format(addHours(currentHour, i), "ha");
-      }
-      console.log(forecastHour);
-      console.log(weatherData.forecast.forecastday[0].hour[i].condition.icon);
-      console.log(`${Math.round(weatherData.forecast.forecastday[0].hour[i].temp_c)}°`);
-      console.log("");
-
-      //<div class="weather-info">
-      //<img src="path-to-icon.png" alt="Weather Icon" class="weather-icon" />
-      //<span class="temperature">72°F</span>
-      //<time class="time">9 AM</time>
-      // </div>
-    }
-    // create the elements with the data inside
-    // append the element to the parent, continue until all hours are made
-  }
-
-  const currentHour = new Date(weatherData.forecast.forecastday[0].date);
-
-  getHourlyForecast(currentHour);
-
-  function get3DayForecast() {
-    const parentElement = document.getElementById("weeklyForecast");
-
-    for (let i = 0; i < 3; i++) {
-      let day;
-      if (i === 0) {
-        day = "Today";
-      } else {
-        // day = allWeekdays[getDay(new Date(weatherData.forecast.forecastday[i].date))];
-      }
-      console.log(day);
-      console.log(weatherData.forecast.forecastday[i].day.condition.icon);
-      console.log(Math.round(weatherData.forecast.forecastday[i].day.maxtemp_c));
-      console.log(Math.round(weatherData.forecast.forecastday[i].day.mintemp_c));
-      console.log("");
-    }
-
-    // create the elements with the data inside
-    // append the element to the parent, continue until all days are made
-  }
+  // getHourlyForecast(currentHour);
 
   console.log(weatherData);
-  setSkyGradient()
   // get3DayForecast();
 }
 
+function convertToTitleCase(str) {
+  let splitStr = str.toLowerCase().split(' ')
+  for (let i = 0; i < splitStr.length; i++) {
+    splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
+  }
+  return splitStr.join(' ')
+}
 
+function getHourlyForecast(currentHour) {
+  const parentElement = document.getElementById("hourlyForecast");
 
+  for (let i = 0; i < 24; i++) {
+    let forecastHour;
+    if (i === 0) {
+      forecastHour = "Now";
+    } else {
+      forecastHour = format(addHours(currentHour, i), "ha");
+    }
+    // console.log(forecastHour);
+    // console.log(weatherData.forecast.forecastday[0].hour[i].condition.icon);
+    // console.log(`${Math.round(weatherData.forecast.forecastday[0].hour[i].temp_c)}°`);
+    // console.log("");
 
+    //<div class="weather-info">
+    //<img src="path-to-icon.png" alt="Weather Icon" class="weather-icon" />
+    //<span class="temperature">72°F</span>
+    //<time class="time">9 AM</time>
+    // </div>
+  }
+  // create the elements with the data inside
+  // append the element to the parent, continue until all hours are made
+}
+
+function get3DayForecast() {
+  const parentElement = document.getElementById("weeklyForecast");
+
+  for (let i = 0; i < 3; i++) {
+    let day;
+    if (i === 0) {
+      day = "Today";
+    } else {
+      // day = allWeekdays[getDay(new Date(weatherData.forecast.forecastday[i].date))];
+    }
+    console.log(day);
+    console.log(weatherData.forecast.forecastday[i].day.condition.icon);
+    console.log(Math.round(weatherData.forecast.forecastday[i].day.maxtemp_c));
+    console.log(Math.round(weatherData.forecast.forecastday[i].day.mintemp_c));
+    console.log("");
+  }
+
+  // create the elements with the data inside
+  // append the element to the parent, continue until all days are made
+}
 
 function setSkyGradient() {
-  let currentTime = new Date()
-
+  const currentTime = new Date()
   const sunTimes = SunCalc.getTimes(currentTime, lat, lon);
-  console.log(sunTimes)
+
   let gradient;
 
-  // Assign a gradient based on sun's position
   if (currentTime > sunTimes.sunrise && currentTime < sunTimes.sunset) {
     gradient = "linear-gradient(to top, #89CFF0, #3ca0ff)"; // Daytime
-    console.log("1")
   } else if (currentTime > sunTimes.dawn && currentTime < sunTimes.dusk) {
     gradient = "linear-gradient(to top, #ffb100, #89CFF0)"; // Sunrise/Sunset
-    console.log("2")
   } else {
     gradient = "linear-gradient(to top, #0c0c3c, #000000)"; // Nighttime
-    console.log("3")
   }
 
   document.body.style.backgroundImage = `${gradient}`;
-;
 }
+
+locationForm.addEventListener('submit', function (e) {
+  e.preventDefault()
+
+  let location = document.getElementById('inputLocation').value
+
+  if (location) {
+    getForecast(location).then(isValid => {
+      if (!isValid) {
+        alert(`${location} is not a valid location, please enter a valid location.`)
+      }
+    })
+  } else {
+    alert(`Please enter a location.`)
+  }
+
+  document.getElementById('inputLocation').value = ''
+})
 
 getForecast(`${location}`);
