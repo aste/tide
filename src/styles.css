@@ -1,9 +1,26 @@
 /* General styling */
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+
 body {
-  font-family: "Arial", sans-serif;
-  background-color: #f4f4f4;
+  font-family: "Roboto", "Arial", sans-serif;
+  font-weight: 100;
+  font-size: 20px;
+  height: 100vh;
+  color: white;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  text-shadow: 0.1rem 0.1rem 0.1rem rgba(0, 0, 0, 0.4);
+  font-weight: 300;
   margin: 0;
   padding: 0;
+  border: 0;
 }
 
 .container {
@@ -14,35 +31,50 @@ body {
   padding: 20px;
 }
 
+#currentConditionContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 /* Header styling */
-#cityName {
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 10px;
+#locationName {
+  font-size: 2rem;
+  margin-top: 2rem;
 }
 
 #country {
-  font-size: 20px;
-  color: #888;
-  margin-bottom: 20px;
+  font-size: 1rem;
+}
+
+#currentTemp {
+  font-size: 5rem;
+  padding-left: 0.8rem;
+  letter-spacing: -0.25rem;
 }
 
 /* Current weather details */
 #currentConditionText {
+  font-size: 1rem;
   margin-top: 10px;
   font-size: 18px;
   color: #444;
 }
 
-#todaysMaxTemp,
-#todaysMinTemp,
-#currentTemp {
-  font-size: 32px;
-  margin-right: 10px;
+#currentConditionShort {
+  font-size: 1rem;
 }
 
-#currentTemp {
-  font-weight: bold;
+#minMaxTempContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+#todaysMaxTemp,
+#todaysMinTemp {
+  font-size: 1rem;
+  margin: 0.25rem;
 }
 
 /* Hourly forecast styles */
@@ -53,6 +85,15 @@ body {
   margin: 10px;
 }
 
+#inputLocation {
+  border: none;
+  border-radius: 1rem;
+  font-family: "Roboto", "Arial", sans-serif;
+  text-align: center;
+  background-color: grey;
+  color: white;
+}
+
 .weather-icon {
   width: 50px;
   height: 50px;
@@ -61,7 +102,6 @@ body {
 
 .temperature {
   font-size: 18px;
-  font-weight: bold;
   margin-bottom: 10px;
 }
 

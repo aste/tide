@@ -1,5 +1,14 @@
 import "./styles.css";
+import myImage from './assets/img/logo.png'
 import { getDay, addHours, format } from "date-fns";
+
+const SunCalc = require('suncalc');
+
+
+let imageUrl = `url(${myImage})`
+let location = "lisbon"
+let lat
+let lon
 
 async function getForecast(location) {
   let weatherData;
@@ -7,15 +16,19 @@ async function getForecast(location) {
   try {
     const apiKey = "b850ee2d91154e8b913155353232806";
     const response = await fetch(
-      `http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${location}&days=3`
+      `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${location}&days=3`
     );
 
     weatherData = await response.json();
 
     let cityName = weatherData.location.name;
     let countryName = weatherData.location.country;
+    lat = weatherData.location.lat
+    lon = weatherData.location.lon
+    // currentTime = weatherData.current.last_updated_epoch
 
-    let currentConditionText = weatherData.current.condition.text;
+
+    let currentConditionText = convertToTitleCase(String(weatherData.current.condition.text));
     let currentConditionIcon = weatherData.current.condition.icon;
     let currentTempC = Math.round(weatherData.current.temp_c);
     let currentPercipMm = weatherData.current.percip_mm;
@@ -30,10 +43,10 @@ async function getForecast(location) {
     let todaysMaxTempC = Math.round(weatherData.forecast.forecastday[0].day.maxtemp_c);
     let todaysMinTempC = Math.round(weatherData.forecast.forecastday[0].day.mintemp_c);
 
-    document.getElementById("cityName").innerHTML = cityName;
+    document.getElementById("locationName").innerHTML = cityName;
     document.getElementById("country").innerHTML = countryName;
-    // document.getElementById("currentConditionText").innerHTML = currentConditionText;
-    // document.getElementById('currentConditionIcon').innerHTML = currentConditionIcon
+    document.getElementById("currentConditionShort").innerHTML = currentConditionText;
+    // document.getElementById('currentConditionIcon').src = currentConditionIcon
     document.getElementById("todaysMaxTemp").innerHTML = `H:${todaysMaxTempC}°`;
     document.getElementById("todaysMinTemp").innerHTML = `L:${todaysMinTempC}°`;
     document.getElementById("currentTemp").innerHTML = `${currentTempC}°`;
@@ -48,6 +61,13 @@ async function getForecast(location) {
   }
 
 
+  function convertToTitleCase(str) {
+    let splitStr = str.toLowerCase().split(' ')
+    for (let i = 0; i < splitStr.length; i++) {
+      splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
+    }
+    return splitStr.join(' ')
+  }
 
   function getHourlyForecast(currentHour) {
     const parentElement = document.getElementById("hourlyForecast");
@@ -100,9 +120,35 @@ async function getForecast(location) {
   }
 
   console.log(weatherData);
-  console.log("test");
+  setSkyGradient()
   // get3DayForecast();
 }
 
 
-getForecast("copenhagen");
+
+
+
+function setSkyGradient() {
+  let currentTime = new Date()
+
+  const sunTimes = SunCalc.getTimes(currentTime, lat, lon);
+  console.log(sunTimes)
+  let gradient;
+
+  // Assign a gradient based on sun's position
+  if (currentTime > sunTimes.sunrise && currentTime < sunTimes.sunset) {
+    gradient = "linear-gradient(to top, #89CFF0, #3ca0ff)"; // Daytime
+    console.log("1")
+  } else if (currentTime > sunTimes.dawn && currentTime < sunTimes.dusk) {
+    gradient = "linear-gradient(to top, #ffb100, #89CFF0)"; // Sunrise/Sunset
+    console.log("2")
+  } else {
+    gradient = "linear-gradient(to top, #0c0c3c, #000000)"; // Nighttime
+    console.log("3")
+  }
+
+  document.body.style.backgroundImage = `${gradient}`;
+;
+}
+
+getForecast(`${location}`);

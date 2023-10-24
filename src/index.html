@@ -4,18 +4,20 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title></title>
+    <title>Tide</title>
+    <!-- <link rel="icon" type="image/x-icon" href="./assets/img/logo.png"> -->
   </head>
   <body>
-    <header>
-      <form id="cityForm">
-        <input type="text" id="city" name="city" placeholder="Enter a location:" required />
+    <header id="currentConditionContainer">
+      <form id="locationForm">
+        <input type="text" id="inputLocation" name="city" placeholder="Enter a location:" required />
       </form>
-      <h2 id="cityName"></h2>
+      <h2 id="locationName"></h2>
       <h3 id="country"></h3>
       <h1 id="currentTemp"></h1>
       <h2 id="currentConditionShort"></h2>
-      <section>
+      <img id="currentConditionIcon" src="" alt="" />
+      <section id="minMaxTempContainer">
         <h3 id="todaysMaxTemp"></h3>
         <h3 id="todaysMinTemp"></h3>
       </section>
