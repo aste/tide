@@ -1,10 +1,10 @@
 import "./styles.css";
-import { fromUnixTime, addHours, format } from "date-fns";
+import { fromUnixTime, addHours, format, getHours } from "date-fns";
 
 const SunCalc = require('suncalc');
 const locationForm = document.getElementById("locationForm")
 
-let location = "Tijuana"
+let location = "Copenhagen"
 
 
 async function getForecast(location) {
@@ -32,8 +32,11 @@ async function getForecast(location) {
 
     setCurrentConditions(weatherData)
 
-    // setHourlyForecast(weatherData)
+    console.log(`The local hour is ${getCurrentLocalHour(weatherData)}`)
 
+    setHourlyForecast(weatherData)
+
+    // setThreeDayForecast(weatherData)
 
     return true
 
@@ -41,17 +44,12 @@ async function getForecast(location) {
     console.error("There was a problem fetching the weather data", error);
     return false;
   }
-
-}
-
-function getCurrentLocalHour() {
-
 }
 
 function setCurrentConditions(weatherData) {
   const cityName = weatherData.location.name;
   const countryName = weatherData.location.country;
-  const currentConditionText = convertToTitleCase(String(weatherData.current.condition.text));
+  const currentConditionShortText = convertToTitleCase(String(weatherData.current.condition.text));
   const currentTempC = Math.round(weatherData.current.temp_c);
   const todaysMaxTempC = Math.round(weatherData.forecast.forecastday[0].day.maxtemp_c);
   const todaysMinTempC = Math.round(weatherData.forecast.forecastday[0].day.mintemp_c);
@@ -59,30 +57,64 @@ function setCurrentConditions(weatherData) {
   document.getElementById("locationName").innerHTML = cityName;
   document.getElementById("country").innerHTML = `${countryName}`;
   document.getElementById("currentTemp").innerHTML = `${currentTempC}°`;
-  document.getElementById("currentConditionShort").innerHTML = currentConditionText;
+  document.getElementById("currentConditionShortText").innerHTML = currentConditionShortText;
   document.getElementById("todaysMaxTemp").innerHTML = `H:${todaysMaxTempC}°`;
   document.getElementById("todaysMinTemp").innerHTML = `L:${todaysMinTempC}°`;
 }
 
-function setHourlyForecast(weatherData) {
-  console.log(weatherData)
-  const parentElement = document.getElementById("hourlyForecast");
+function getCurrentLocalHour(weatherData) {
+  const localTime = weatherData.location.localtime
+  const hour = parseInt(localTime.split(' ')[1].split(':')[0], 10)
+  return hour
+}
 
-  for (let i = 0; i < 24; i++) {
-    let forecastHour;
-    if (i === 0) {
-      forecastHour = "Now";
+
+function setHourlyForecast(weatherData) {
+  const localHour = getCurrentLocalHour(weatherData)
+  const day1 = weatherData.forecast.forecastday[0].hour
+  const day2 = weatherData.forecast.forecastday[1].hour
+  const hourlyArray = day1.concat(day2)
+  const hourlySection = document.getElementById('hourlyForecastContainer')
+  clearDomContainer(hourlySection)
+
+  // console.log(hourlyArray)
+
+
+  for (let i = localHour; i < localHour + 12; i++) {
+    console.log(i)
+
+
+    const hourlyArticle = document.createElement('article')
+    hourlyArticle.classList.add("hour", `${i % 24}`)
+    hourlySection.appendChild(hourlyArticle)
+
+    const hourlyTime = document.createElement('h3')
+    hourlyTime.classList.add("hourlyTime")
+    if (i === localHour) {
+      hourlyTime.textContent = "Now"
     } else {
-      forecastHour = format(addHours(currentHour, i), "ha");
+      hourlyTime.textContent = `${i % 24}.00`
     }
-    const currentLocalTime = format(new Date(weatherData.location.localtime), "H:mm aaaaa'm'")
-    document.getElementById("currentLocalTime").innerHTML = `${currentLocalTime}`;
+    hourlyArticle.appendChild(hourlyTime)
+
+    const hourlyWeatherIcon = document.createElement('img')
+    hourlyWeatherIcon.classList.add('hourlyWeatherIcon')
+    hourlyWeatherIcon.src = `${hourlyArray[i].condition.icon}`;
+    hourlyWeatherIcon.alt = `Icon of todays weather: ${hourlyArray[i].condition.icon}`;
+    hourlyArticle.appendChild(hourlyWeatherIcon)
+
+
+    const hourlyTemp = document.createElement('h3')
+    hourlyTemp.classList.add("hourlyTemp")
+    hourlyTemp.textContent = `${Math.round(hourlyArray[i].temp_c)}°`
+    hourlyArticle.appendChild(hourlyTemp)
+    hourlySection.appendChild(hourlyArticle)
   }
 }
 
 
-
 function setThreeDayForecast(weatherData) {
+
   const parentElement = document.getElementById("weeklyForecast");
 
   for (let i = 0; i < 3; i++) {
@@ -106,26 +138,34 @@ function setBackgroundSkyGradient(weatherData) {
   const lon = weatherData.location.lon
   const currentTime = new Date()
   const sunTimes = SunCalc.getTimes(currentTime, lat, lon);
-  const cloudCover = weatherData.current.cloud
-  const cloudOpacity = cloudCover / 100
 
-  let skyGradient
+  let cloudCover
   let cloudGradient
+  let skyGradient
+
+  if (weatherData.current.condition.text === "Overcast") {
+    cloudCover = 1.0
+  } else {
+    cloudCover = weatherData.current.cloud / 100
+  }
+
+  console.log(cloudCover)
+  console.log(weatherData.current.condition.text)
+
 
   if (currentTime > sunTimes.sunrise && currentTime < sunTimes.sunset) {
     skyGradient = "linear-gradient(to top, #89CFF0, #3ca0ff 50%, #3ca0ff)";
-    cloudGradient = `linear-gradient(to top, rgba(0, 0, 0, 0), rgba(255, 255, 255, ${cloudOpacity * 0.75}) 50%, rgba(255, 255, 255, ${cloudOpacity * 1.5}) 95% )`
+    cloudGradient = `linear-gradient(to top, rgba(0, 0, 0, 0), rgba(255, 255, 255, ${cloudCover * 0.75}) 50%, rgba(255, 255, 255, ${cloudCover * 1.5}) 95% )`
   } else if (currentTime > sunTimes.dawn && currentTime < sunTimes.dusk) {
-    skyGradient = "linear-gradient(to top, #ffb100, #89CFF0 30%)";
-    cloudGradient = `linear-gradient(to top, rgba(0, 0, 0, 0),  rgba(255, 255, 255, ${cloudOpacity}))`
+    skyGradient = "linear-gradient(to top, #b86130, #422c3c 60%)";
+    cloudGradient = `linear-gradient(to top, rgba(0, 0, 0, 0),  rgba(255, 255, 255, ${cloudCover}))`
   } else {
-    skyGradient = "linear-gradient(to top, #0c0c3c, #000000 50%, #000000)";
-    cloudGradient = `linear-gradient(to top, rgba(0, 0, 0, 0), rgba(255, 255, 255, ${cloudOpacity * 0.35}) 50%, rgba(255, 255, 255, ${cloudOpacity * 0.75}) 100% )`
+    skyGradient = "linear-gradient(to top, #0c0c3c, #000000 90%, #000000)";
+    cloudGradient = `linear-gradient(to top, rgba(0, 0, 0, 0), rgba(255, 255, 255, ${cloudCover * 0.35}) 50%, rgba(255, 255, 255, ${cloudCover * 0.55}) 100% )`
   }
 
   document.body.style.backgroundImage = `${cloudGradient}, ${skyGradient}`;
 }
-
 
 function convertToTitleCase(str) {
   let splitStr = str.toLowerCase().split(' ')
@@ -152,5 +192,11 @@ locationForm.addEventListener('submit', function (e) {
 
   document.getElementById('inputLocation').value = ''
 })
+
+function clearDomContainer(domElement) {
+  while(domElement.firstElementChild) {
+    domElement.firstElementChild.remove()
+  }
+}
 
 getForecast(`${location}`);

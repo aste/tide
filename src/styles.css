@@ -17,17 +17,9 @@ h4,
 h5,
 h6,
 p {
-  text-shadow: 0.1rem 0.1rem 0.1rem rgba(0, 0, 0, 0.4);
+  text-shadow: 0.1rem 0.1rem 0.1rem rgba(0, 0, 0, 0.45);
   font-weight: 300;
   margin: 0;
-}
-
-.container {
-  max-width: 800px;
-  margin: 20px auto;
-  background-color: #fff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  padding: 20px;
 }
 
 /* Header styling */
@@ -36,7 +28,8 @@ p {
   flex-direction: column;
   align-items: center;
 }
-#currentConditionShort,
+
+#currentConditionShortText,
 #locationName {
   font-size: 1.5rem;
 }
@@ -91,17 +84,31 @@ p {
 }
 
 /* Hourly and Weekly Forecast Common Styles */
-#hourlyForecast .weather-info,
-#weeklyForecast .weather-info {
+#hourlyForecastContainer {
+  display: flex;
+  justify-content: space-around;
+  padding: 1rem;
+  border-radius: 1rem;
+  margin: 1rem;
+  margin-top: 5rem;
+  background-color: var(--background-grey);
+}
+
+.hour{
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.weather-icon {
-  width: 50px;
-  height: 50px;
-  margin-bottom: 10px;
+.hour,
+.hourlyTemp{
+  margin-left: 0.75rem;
+}
+
+.hourlyWeatherIcon {
+  max-width: 50px;
+  max-height: 50px;
+  margin: 0.25rem;
 }
 
 .temperature {
@@ -114,6 +121,6 @@ p {
   color: #666;
 }
 
-#weeklyForecast .weather-info {
+#weeklyForecastContainer .weather-info {
   margin: 20px;
 }
