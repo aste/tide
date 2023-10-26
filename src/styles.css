@@ -1,9 +1,11 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+
 :root {
-  --background-grey: rgba(85, 85, 85, 0.25);
+  --background-grey: rgba(65, 65, 65, 0.25);
 }
 
 body {
-  font-family: "Roboto", "Arial", sans-serif;
+  font-family: "Roboto", sans-serif;
   font-weight: 100;
   font-size: 20px;
   height: 100vh;
@@ -22,7 +24,7 @@ p {
   margin: 0;
 }
 
-/* Header styling */
+/* Header styling & Current weather details */
 #currentConditionContainer {
   display: flex;
   flex-direction: column;
@@ -48,8 +50,7 @@ p {
   letter-spacing: -0.25rem;
 }
 
-/* Current weather details */
-#minMaxTempContainer {
+.minMaxTempContainer {
   display: flex;
 }
 
@@ -83,7 +84,8 @@ p {
   transform: scale(1.1);
 }
 
-/* Hourly and Weekly Forecast Common Styles */
+/* Hourly & Weekly Forecast Styles */
+#dailyForecastContainer,
 #hourlyForecastContainer {
   display: flex;
   justify-content: space-around;
@@ -94,14 +96,15 @@ p {
   background-color: var(--background-grey);
 }
 
-.hour{
+.day,
+.hour {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
 .hour,
-.hourlyTemp{
+.hourlyTemp {
   margin-left: 0.75rem;
 }
 
@@ -109,18 +112,4 @@ p {
   max-width: 50px;
   max-height: 50px;
   margin: 0.25rem;
-}
-
-.temperature {
-  font-size: 18px;
-  margin-bottom: 10px;
-}
-
-.time {
-  font-size: 14px;
-  color: #666;
-}
-
-#weeklyForecastContainer .weather-info {
-  margin: 20px;
 }

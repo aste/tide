@@ -26,17 +26,13 @@ async function getForecast(location) {
       { mode: "cors" }
     }
 
-    console.log(weatherData)
-
     setBackgroundSkyGradient(weatherData)
 
     setCurrentConditions(weatherData)
 
-    console.log(`The local hour is ${getCurrentLocalHour(weatherData)}`)
-
     setHourlyForecast(weatherData)
 
-    // setThreeDayForecast(weatherData)
+    setThreeDayForecast(weatherData)
 
     return true
 
@@ -75,14 +71,10 @@ function setHourlyForecast(weatherData) {
   const day2 = weatherData.forecast.forecastday[1].hour
   const hourlyArray = day1.concat(day2)
   const hourlySection = document.getElementById('hourlyForecastContainer')
+  
   clearDomContainer(hourlySection)
 
-  // console.log(hourlyArray)
-
-
   for (let i = localHour; i < localHour + 12; i++) {
-    console.log(i)
-
 
     const hourlyArticle = document.createElement('article')
     hourlyArticle.classList.add("hour", `${i % 24}`)
@@ -103,7 +95,6 @@ function setHourlyForecast(weatherData) {
     hourlyWeatherIcon.alt = `Icon of todays weather: ${hourlyArray[i].condition.icon}`;
     hourlyArticle.appendChild(hourlyWeatherIcon)
 
-
     const hourlyTemp = document.createElement('h3')
     hourlyTemp.classList.add("hourlyTemp")
     hourlyTemp.textContent = `${Math.round(hourlyArray[i].temp_c)}°`
@@ -114,23 +105,56 @@ function setHourlyForecast(weatherData) {
 
 
 function setThreeDayForecast(weatherData) {
-
-  const parentElement = document.getElementById("weeklyForecast");
+  const dailyForecastArray = weatherData.forecast.forecastday;
+  const dailySection = document.getElementById('dailyForecastContainer');
+  
+  clearDomContainer(dailySection);
 
   for (let i = 0; i < 3; i++) {
-    let day;
-    if (i === 0) {
-      day = "Today";
-    } else {
-      day = allWeekdays[getDay(new Date(weatherData.forecast.forecastday[i].date))];
-    }
-    console.log(day);
-    console.log(weatherData.forecast.forecastday[i].day.condition.icon);
-    console.log(Math.round(weatherData.forecast.forecastday[i].day.maxtemp_c));
-    console.log(Math.round(weatherData.forecast.forecastday[i].day.mintemp_c));
-    console.log("");
-  }
+    const dailyForecast = dailyForecastArray[i];
 
+    const dailyArticle = document.createElement('article');
+    dailyArticle.classList.add("day", `${i}`);
+    dailySection.appendChild(dailyArticle);
+
+    const dayName = document.createElement('h3');
+    dayName.classList.add("dayName");
+    console.log(dayName)
+    if (i === 0) {
+      dayName.textContent = "Today"
+    } else {
+      dayName.textContent = new Date(dailyForecast.date).toLocaleDateString('en-US', { weekday: "long"});
+    }
+    dailyArticle.appendChild(dayName);
+
+    const dailyIcon = document.createElement('img');
+    dailyIcon.classList.add('dailyIcon');
+    dailyIcon.src = dailyForecast.day.condition.icon;
+    dailyIcon.alt = `Weather icon for the day: ${dailyForecast.day.condition.text}`;
+    dailyArticle.appendChild(dailyIcon);
+
+    const dailyRainChance = document.createElement('h3');
+    dailyRainChance.classList.add("dailyRainChance");
+    dailyRainChance.textContent = `Rain ${dailyForecast.day.daily_chance_of_rain}%`;
+    dailyArticle.appendChild(dailyRainChance);
+
+    const dailyTempSection = document.createElement('section')
+    dailyTempSection.classList.add("minMaxTempContainer");
+    dailyArticle.appendChild(dailyTempSection)
+
+    const dailyLowTemp = document.createElement('h3');
+    dailyLowTemp.classList.add("dailyLowTemp");
+    dailyLowTemp.textContent = `L:${Math.round(dailyForecast.day.mintemp_c)}°`;
+    dailyTempSection.appendChild(dailyLowTemp);
+
+    const dailyHighTemp = document.createElement('h3');
+    dailyHighTemp.classList.add("dailyHighTemp");
+    dailyHighTemp.textContent = `H:${Math.round(dailyForecast.day.maxtemp_c)}°`;
+    dailyTempSection.appendChild(dailyHighTemp);
+
+
+    dailySection.appendChild(dailyArticle);
+  }
 }
 
 function setBackgroundSkyGradient(weatherData) {
@@ -148,9 +172,6 @@ function setBackgroundSkyGradient(weatherData) {
   } else {
     cloudCover = weatherData.current.cloud / 100
   }
-
-  console.log(cloudCover)
-  console.log(weatherData.current.condition.text)
 
 
   if (currentTime > sunTimes.sunrise && currentTime < sunTimes.sunset) {
