@@ -8,7 +8,8 @@ body {
   font-family: "Roboto", sans-serif;
   font-weight: 100;
   font-size: 20px;
-  height: 100vh;
+  min-height: 100vh;
+  max-height: 100%;
   color: white;
 }
 
@@ -40,18 +41,26 @@ p {
 #currentLocalTime,
 #currentConditionText,
 #todaysMaxTemp,
-#todaysMinTemp {
+#todaysMinTemp,
+.dailyRainChance {
   font-size: 1rem;
+}
+
+.dailyHighTemp,
+.dailyLowTemp {
+  font-size: 1.25rem;
+  margin-left: 0.25rem;
+  margin-right: 0.25rem;
+}
+
+.dailyMinMax {
+  margin: 0.25rem 0 0.25rem 0.25rem;
 }
 
 #currentTemp {
   font-size: 5rem;
   padding-left: 0.8rem;
   letter-spacing: -0.25rem;
-}
-
-.minMaxTempContainer {
-  display: flex;
 }
 
 #todaysMaxTemp,
@@ -103,6 +112,10 @@ p {
   align-items: center;
 }
 
+.minMaxTempContainer {
+  display: flex;
+}
+
 .hour,
 .hourlyTemp {
   margin-left: 0.75rem;
@@ -112,4 +125,26 @@ p {
   max-width: 50px;
   max-height: 50px;
   margin: 0.25rem;
+}
+
+@media (max-width: 1024px) {
+  #dailyForecastContainer,
+  #hourlyForecastContainer {
+    flex-direction: column;
+    display: block;
+    box-sizing: border-box;
+  }
+
+  .dailyRainChance {
+    display: none;
+  }
+
+  .day,
+  .hour {
+    display: grid;
+    gap: 1rem;
+    justify-items: center;
+    align-items: center;
+    grid-template-columns: repeat(3, 1fr);
+  }
 }

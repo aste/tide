@@ -71,7 +71,7 @@ function setHourlyForecast(weatherData) {
   const day2 = weatherData.forecast.forecastday[1].hour
   const hourlyArray = day1.concat(day2)
   const hourlySection = document.getElementById('hourlyForecastContainer')
-  
+
   clearDomContainer(hourlySection)
 
   for (let i = localHour; i < localHour + 12; i++) {
@@ -107,7 +107,7 @@ function setHourlyForecast(weatherData) {
 function setThreeDayForecast(weatherData) {
   const dailyForecastArray = weatherData.forecast.forecastday;
   const dailySection = document.getElementById('dailyForecastContainer');
-  
+
   clearDomContainer(dailySection);
 
   for (let i = 0; i < 3; i++) {
@@ -120,11 +120,7 @@ function setThreeDayForecast(weatherData) {
     const dayName = document.createElement('h3');
     dayName.classList.add("dayName");
     console.log(dayName)
-    if (i === 0) {
-      dayName.textContent = "Today"
-    } else {
-      dayName.textContent = new Date(dailyForecast.date).toLocaleDateString('en-US', { weekday: "long"});
-    }
+    dayName.textContent = new Date(dailyForecast.date).toLocaleDateString('en-US', { weekday: "short" });
     dailyArticle.appendChild(dayName);
 
     const dailyIcon = document.createElement('img');
@@ -133,13 +129,8 @@ function setThreeDayForecast(weatherData) {
     dailyIcon.alt = `Weather icon for the day: ${dailyForecast.day.condition.text}`;
     dailyArticle.appendChild(dailyIcon);
 
-    const dailyRainChance = document.createElement('h3');
-    dailyRainChance.classList.add("dailyRainChance");
-    dailyRainChance.textContent = `Rain ${dailyForecast.day.daily_chance_of_rain}%`;
-    dailyArticle.appendChild(dailyRainChance);
-
     const dailyTempSection = document.createElement('section')
-    dailyTempSection.classList.add("minMaxTempContainer");
+    dailyTempSection.classList.add("minMaxTempContainer", "dailyMinMax");
     dailyArticle.appendChild(dailyTempSection)
 
     const dailyLowTemp = document.createElement('h3');
@@ -151,6 +142,12 @@ function setThreeDayForecast(weatherData) {
     dailyHighTemp.classList.add("dailyHighTemp");
     dailyHighTemp.textContent = `H:${Math.round(dailyForecast.day.maxtemp_c)}°`;
     dailyTempSection.appendChild(dailyHighTemp);
+
+    const dailyRainChance = document.createElement('h3');
+    dailyRainChance.classList.add("dailyRainChance");
+    dailyRainChance.textContent = `Rain ${dailyForecast.day.daily_chance_of_rain}%`;
+    dailyArticle.appendChild(dailyRainChance);
+
 
 
     dailySection.appendChild(dailyArticle);
@@ -215,7 +212,7 @@ locationForm.addEventListener('submit', function (e) {
 })
 
 function clearDomContainer(domElement) {
-  while(domElement.firstElementChild) {
+  while (domElement.firstElementChild) {
     domElement.firstElementChild.remove()
   }
 }
