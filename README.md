@@ -53,7 +53,6 @@ An [Odin Project](https://www.theodinproject.com/lessons/node-path-javascript-we
 
 - [date-fns](https://date-fns.org/)
 - [Google Fonts](https://fonts.google.com/)
-- [Font Awesome](https://fontawesome.com/)
 
 ### Tools
 
