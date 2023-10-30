@@ -11,7 +11,7 @@ module.exports = {
         filename: 'main.js',
         // path: path.resolve(__dirname, 'dist'),
         path: path.resolve(__dirname, 'dist'),
-        publicPath: '/'
+        publicPath: '/tide/'
     },
     devServer: {
         static: path.join(__dirname, 'dist'),
