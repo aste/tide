@@ -4,7 +4,7 @@ import { fromUnixTime, addHours, format, getHours } from "date-fns";
 const SunCalc = require('suncalc');
 const locationForm = document.getElementById("locationForm")
 
-let location = "Copenhagen"
+let location = "London"
 
 
 async function getForecast(location) {
