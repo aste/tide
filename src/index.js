@@ -8,30 +8,27 @@ let location = "Copenhagen"
 
 
 async function getForecast(location) {
-  let weatherData;
+  const apiKey = "b850ee2d91154e8b913155353232806";
 
   try {
-    const apiKey = "b850ee2d91154e8b913155353232806";
     const apiUrl = `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${location}&days=3`
 
     const response = await fetch(apiUrl);
 
-    weatherData = await response.json();
 
+    console.log(weatherData)
     if (!response.ok) {
-      if (response.status === "404") {
+      if (response.status === 404) {
         return false
       }
-      throw new Error(`HTTP error! Status: ${response.status}`),
-      { mode: "cors" }
+      throw new Error(`HTTP error! Status: ${response.status}`)
     }
 
+    const weatherData = await response.json();
+
     setBackgroundSkyGradient(weatherData)
-
     setCurrentConditions(weatherData)
-
     setHourlyForecast(weatherData)
-
     setThreeDayForecast(weatherData)
 
     return true
