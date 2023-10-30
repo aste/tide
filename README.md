@@ -118,4 +118,4 @@ Contributions, issues, and feature requests are welcome! Feel free to check [iss
 - **LinkedIn** - [LinkedIn Profile Link](https://www.linkedin.com/in/aste/)
 - **Twitter** - [Twitter Profile Link](https://twitter.com/asteploug)
 
-*Feel free to reach out if you have questions or if you want to collaborate on a project!*
+*Feel free to reach out if you have questions or if you want to collaborate on a project*
