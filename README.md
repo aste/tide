@@ -4,7 +4,7 @@
 <br />
 <div align="center">
   <a href="#">
-    <img src="linkToLogo" alt="Logo" width="100" height="100">
+    <img src="https://github.com/Aste/tide/blob/main/src/assets/img/logo.png" alt="tide Logo" width="100" height="100">
   </a>
 
 <h3 align="center">Weather app</h3>
