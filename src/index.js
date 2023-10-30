@@ -8,6 +8,7 @@ let location = "Copenhagen"
 
 
 async function getForecast(location) {
+  let weatherData
   const apiKey = "b850ee2d91154e8b913155353232806";
 
   try {
@@ -24,7 +25,7 @@ async function getForecast(location) {
       throw new Error(`HTTP error! Status: ${response.status}`)
     }
 
-    const weatherData = await response.json();
+    weatherData = await response.json();
 
     setBackgroundSkyGradient(weatherData)
     setCurrentConditions(weatherData)
